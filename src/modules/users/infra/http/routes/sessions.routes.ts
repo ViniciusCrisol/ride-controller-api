@@ -11,7 +11,7 @@ sessionsRoutes.post(
   celebrate({
     [Segments.BODY]: {
       password: Joi.string().required(),
-      email: Joi.string().email().required(),
+      code: Joi.string().code().required(),
     },
   }),
   sessionsController.create,
