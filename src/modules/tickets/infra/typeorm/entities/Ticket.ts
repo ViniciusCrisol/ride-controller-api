@@ -11,7 +11,7 @@ import {
 import User from '@modules/users/infra/typeorm/entities/User';
 
 @Entity('tickets')
-class RideValue {
+class Ticket {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -32,4 +32,4 @@ class RideValue {
   updated_at: Date;
 }
 
-export default RideValue;
+export default Ticket;

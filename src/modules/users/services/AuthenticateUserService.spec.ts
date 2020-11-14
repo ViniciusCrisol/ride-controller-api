@@ -1,13 +1,13 @@
 import AppError from '@shared/errors/AppError';
-import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
-import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
-import AuthenticateUserService from './AuthenticateUserService';
 import User from '../infra/typeorm/entities/User';
+import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
+import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
+import AuthenticateUserService from './AuthenticateUserService';
 
 let user: User;
 let authenticateUser: AuthenticateUserService;
-let fakeUsersRepository: FakeUsersRepository;
 let fakeHashProvider: FakeHashProvider;
+let fakeUsersRepository: FakeUsersRepository;
 
 describe('AuthnticateUser', () => {
   beforeEach(async () => {

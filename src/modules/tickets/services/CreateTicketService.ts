@@ -27,16 +27,12 @@ class CreateTicketService {
     const ticket = await this.ticketsRepository.findByUserId(user_id);
 
     if (!ticket) {
-      const createdTicket = await this.ticketsRepository.create({
-        user_id,
-        value,
-      });
-      return createdTicket;
+      const newTicket = await this.ticketsRepository.create({ user_id, value });
+      return newTicket;
     }
 
     ticket.value = value;
     await this.ticketsRepository.save(ticket);
-
     return ticket;
   }
 }

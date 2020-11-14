@@ -4,7 +4,7 @@ import ITicketsRepository from '@modules/tickets/repositories/ITicketsRepository
 import ICreateTicketDTO from '@modules/tickets/dtos/ICreateTicketDTO';
 import Ticket from '../entities/Ticket';
 
-class RideValuesRepository implements ITicketsRepository {
+class TicketsRepository implements ITicketsRepository {
   private ormRepository: Repository<Ticket>;
 
   constructor() {
@@ -30,4 +30,4 @@ class RideValuesRepository implements ITicketsRepository {
   }
 }
 
-export default RideValuesRepository;
+export default TicketsRepository;

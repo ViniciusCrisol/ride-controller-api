@@ -1,7 +1,7 @@
 import { uuid } from 'uuidv4';
 
-import ICreateTicketDTO from '@modules/tickets/dtos/ICreateTicketDTO';
 import ITicketsRepository from '@modules/tickets/repositories/ITicketsRepository';
+import ICreateTicketDTO from '@modules/tickets/dtos/ICreateTicketDTO';
 import Ticket from '../../infra/typeorm/entities/Ticket';
 
 class FakeTicketsRepository implements ITicketsRepository {
