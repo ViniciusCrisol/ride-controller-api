@@ -8,6 +8,7 @@ import User from '../infra/typeorm/entities/User';
 interface IRequest {
   name: string;
   code: string;
+  email: string;
   password: string;
 }
 
@@ -21,11 +22,22 @@ class CreateUserService {
     private hashProvider: IHashProvider,
   ) {}
 
-  public async execute({ name, code, password }: IRequest): Promise<User> {
-    const checkUserExists = await this.usersRepository.findByCode(code);
+  public async execute({
+    name,
+    code,
+    email,
+    password,
+  }: IRequest): Promise<User> {
+    const checkCodeIsBeingUsed = await this.usersRepository.findByCode(code);
 
-    if (checkUserExists) {
-      throw new AppError('Code address already in use.');
+    if (checkCodeIsBeingUsed) {
+      throw new AppError('Code already in use.');
+    }
+
+    const checkEmailIsBeingUsed = await this.usersRepository.findByEmail(email);
+
+    if (checkEmailIsBeingUsed) {
+      throw new AppError('E-mail already in use.');
     }
 
     const hashedPassword = await this.hashProvider.generateHash(password);
@@ -33,6 +45,7 @@ class CreateUserService {
     const user = await this.usersRepository.create({
       name,
       code,
+      email,
       password: hashedPassword,
     });
 

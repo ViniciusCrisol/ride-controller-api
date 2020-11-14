@@ -25,6 +25,7 @@ describe('AuthnticateUser', () => {
     const user = await createUser.execute({
       name: 'John Doe',
       code: 'john@example',
+      email: 'john@example.com',
       password: 'password',
     });
 
@@ -37,10 +38,11 @@ describe('AuthnticateUser', () => {
     expect(response.user).toEqual(user);
   });
 
-  it('should not be able to authenticate with a wrong code', async () => {
+  it('should not be able to authenticate with a wrong email', async () => {
     await createUser.execute({
       name: 'John Doe',
       code: 'john@example',
+      email: 'john@example.com',
       password: 'password',
     });
 
@@ -56,6 +58,7 @@ describe('AuthnticateUser', () => {
     await createUser.execute({
       name: 'John Doe',
       code: 'john@example',
+      email: 'john@example.com',
       password: 'password',
     });
 
