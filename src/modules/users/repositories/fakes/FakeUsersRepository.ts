@@ -8,17 +8,17 @@ class FakeUsersRepository implements IUsersRepository {
   private users: User[] = [];
 
   public async findById(id: string): Promise<User | undefined> {
-    const user = this.users.find(user => user.id === id);
+    const user = this.users.find(usr => usr.id === id);
     return user;
   }
 
   public async findByCode(code: string): Promise<User | undefined> {
-    const user = this.users.find(user => user.code === code);
+    const user = this.users.find(usr => usr.code === code);
     return user;
   }
 
   public async findByEmail(email: string): Promise<User | undefined> {
-    const user = this.users.find(user => user.email === email);
+    const user = this.users.find(usr => usr.email === email);
     return user;
   }
 

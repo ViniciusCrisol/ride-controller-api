@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export default class CreateHistory1605283268411 implements MigrationInterface {
+export default class CreateTickets1605366905909 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'history',
+        name: 'tickets',
         columns: [
           {
             name: 'id',
@@ -34,7 +34,7 @@ export default class CreateHistory1605283268411 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: 'UserHistory',
+            name: 'UserTicket',
             referencedTableName: 'users',
             referencedColumnNames: ['id'],
             columnNames: ['user_id'],
@@ -47,6 +47,6 @@ export default class CreateHistory1605283268411 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('history');
+    await queryRunner.dropTable('tickets');
   }
 }

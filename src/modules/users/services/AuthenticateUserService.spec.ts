@@ -1,36 +1,34 @@
 import AppError from '@shared/errors/AppError';
-import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
+import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 import AuthenticateUserService from './AuthenticateUserService';
-import CreateUserService from './CreateUserService';
+import User from '../infra/typeorm/entities/User';
 
-let createUser: CreateUserService;
-let fakeHashProvider: FakeHashProvider;
-let fakeUsersRepository: FakeUsersRepository;
+let user: User;
 let authenticateUser: AuthenticateUserService;
+let fakeUsersRepository: FakeUsersRepository;
+let fakeHashProvider: FakeHashProvider;
 
 describe('AuthnticateUser', () => {
-  beforeEach(() => {
-    fakeUsersRepository = new FakeUsersRepository();
+  beforeEach(async () => {
     fakeHashProvider = new FakeHashProvider();
-
-    createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider);
+    fakeUsersRepository = new FakeUsersRepository();
     authenticateUser = new AuthenticateUserService(
       fakeUsersRepository,
       fakeHashProvider,
     );
-  });
 
-  it('should be able to authenticate', async () => {
-    const user = await createUser.execute({
+    user = await fakeUsersRepository.create({
       name: 'John Doe',
       code: 'john@example',
       email: 'john@example.com',
       password: 'password',
     });
+  });
 
+  it('should be able to authenticate user with code', async () => {
     const response = await authenticateUser.execute({
-      code: 'john@example',
+      login: 'john@example',
       password: 'password',
     });
 
@@ -38,33 +36,29 @@ describe('AuthnticateUser', () => {
     expect(response.user).toEqual(user);
   });
 
-  it('should not be able to authenticate with a wrong email', async () => {
-    await createUser.execute({
-      name: 'John Doe',
-      code: 'john@example',
-      email: 'john@example.com',
+  it('should be able to authenticate user with e-mail', async () => {
+    const response = await authenticateUser.execute({
+      login: 'john@example.com',
       password: 'password',
     });
 
+    expect(response).toHaveProperty('token');
+    expect(response.user).toEqual(user);
+  });
+
+  it('should not be able to authenticate with a wrong login', async () => {
     await expect(
       authenticateUser.execute({
-        code: 'wrongJohn@example',
+        login: 'wrongJohn@example',
         password: 'password',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
 
   it('should not be able to authenticate with a wrong password', async () => {
-    await createUser.execute({
-      name: 'John Doe',
-      code: 'john@example',
-      email: 'john@example.com',
-      password: 'password',
-    });
-
     await expect(
       authenticateUser.execute({
-        code: 'john@example',
+        login: 'john@example',
         password: 'wrongPassword',
       }),
     ).rejects.toBeInstanceOf(AppError);

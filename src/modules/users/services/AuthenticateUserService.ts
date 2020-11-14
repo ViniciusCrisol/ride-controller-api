@@ -8,7 +8,7 @@ import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 import User from '../infra/typeorm/entities/User';
 
 interface IRequest {
-  code: string;
+  login: string;
   password: string;
 }
 
@@ -27,21 +27,22 @@ class AuthenticateUserService {
     private hashProvider: IHashProvider,
   ) {}
 
-  public async execute({ code, password }: IRequest): Promise<IResponse> {
-    const user = await this.usersRepository.findByCode(code);
+  public async execute({ login, password }: IRequest): Promise<IResponse> {
+    const userFoundedByCode = await this.usersRepository.findByCode(login);
+    const userFoundedByEmail = await this.usersRepository.findByEmail(login);
 
-    if (!user) {
-      throw new AppError('Incorrect code/password combination.', 401);
-    }
+    if (!userFoundedByEmail && !userFoundedByCode)
+      throw new AppError('Incorrect login/password combination.', 401);
+
+    const user = (userFoundedByCode || userFoundedByEmail) as User;
 
     const passwordMatched = await this.hashProvider.compareHash(
       password,
       user.password,
     );
 
-    if (!passwordMatched) {
-      throw new AppError('Incorrect code/password combination.', 401);
-    }
+    if (!passwordMatched)
+      throw new AppError('Incorrect login/password combination.', 401);
 
     const { secret, expiresIn } = authConfig.jwt;
 

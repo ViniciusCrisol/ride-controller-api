@@ -29,19 +29,12 @@ class CreateUserService {
     password,
   }: IRequest): Promise<User> {
     const checkCodeIsBeingUsed = await this.usersRepository.findByCode(code);
-
-    if (checkCodeIsBeingUsed) {
-      throw new AppError('Code already in use.');
-    }
+    if (checkCodeIsBeingUsed) throw new AppError('Code already in use.');
 
     const checkEmailIsBeingUsed = await this.usersRepository.findByEmail(email);
-
-    if (checkEmailIsBeingUsed) {
-      throw new AppError('E-mail already in use.');
-    }
+    if (checkEmailIsBeingUsed) throw new AppError('E-mail already in use.');
 
     const hashedPassword = await this.hashProvider.generateHash(password);
-
     const user = await this.usersRepository.create({
       name,
       code,
