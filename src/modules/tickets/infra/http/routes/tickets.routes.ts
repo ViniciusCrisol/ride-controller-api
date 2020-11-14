@@ -11,7 +11,7 @@ const ticketsController = new TicketsController();
 ticketsRouter.post(
   '/',
   celebrate({
-    [Segments.BODY]: { value: Joi.number().required() },
+    [Segments.BODY]: { value: Joi.number().required().min(0.01) },
   }),
   ticketsController.create,
 );
