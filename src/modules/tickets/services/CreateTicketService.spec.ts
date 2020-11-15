@@ -9,7 +9,7 @@ let createTicket: CreateTicketService;
 let fakeUsersRepository: FakeUsersRepository;
 let fakeTicketsRepository: FakeTicketsRepository;
 
-describe('CreateUser', () => {
+describe('CreateTicket', () => {
   beforeEach(async () => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeTicketsRepository = new FakeTicketsRepository();

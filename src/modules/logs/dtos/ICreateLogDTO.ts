@@ -1,4 +1,4 @@
 export default interface ICreateLogDTO {
-  vakue: number;
+  value: number;
   user_id: string;
 }

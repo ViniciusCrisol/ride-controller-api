@@ -19,8 +19,8 @@ class TicketsRepository implements ITicketsRepository {
     return ticket;
   }
 
-  public async create(userData: ICreateTicketDTO): Promise<Ticket> {
-    const ticket = this.ormRepository.create(userData);
+  public async create(ticketData: ICreateTicketDTO): Promise<Ticket> {
+    const ticket = this.ormRepository.create(ticketData);
     await this.ormRepository.save(ticket);
     return ticket;
   }

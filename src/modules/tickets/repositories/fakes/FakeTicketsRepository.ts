@@ -12,9 +12,9 @@ class FakeTicketsRepository implements ITicketsRepository {
     return ticket;
   }
 
-  public async create(valueData: ICreateTicketDTO): Promise<Ticket> {
+  public async create(ticketData: ICreateTicketDTO): Promise<Ticket> {
     const ticket = new Ticket();
-    Object.assign(ticket, { id: uuid(), ...valueData });
+    Object.assign(ticket, { id: uuid(), ...ticketData });
     this.tickets.push(ticket);
     return ticket;
   }

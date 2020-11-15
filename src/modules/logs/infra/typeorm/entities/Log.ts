@@ -10,8 +10,8 @@ import {
 
 import User from '@modules/users/infra/typeorm/entities/User';
 
-@Entity('tickets')
-class Ticket {
+@Entity('logs')
+class Log {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -32,4 +32,4 @@ class Ticket {
   updated_at: Date;
 }
 
-export default Ticket;
+export default Log;
