@@ -13,8 +13,8 @@ interface IRequest {
 @injectable()
 class CreateTicketService {
   constructor(
-    @inject('TicketsRepository')
-    private ticketsRepository: ILogsRepository,
+    @inject('LogsRepository')
+    private logsRepository: ILogsRepository,
 
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
@@ -24,7 +24,7 @@ class CreateTicketService {
     const userExists = await this.usersRepository.findById(user_id);
     if (!userExists) throw new AppError('User does not exists.');
 
-    const log = await this.ticketsRepository.create({ user_id, value });
+    const log = await this.logsRepository.create({ user_id, value });
     return log;
   }
 }

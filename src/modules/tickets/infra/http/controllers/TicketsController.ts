@@ -9,8 +9,8 @@ export default class TicketsController {
     const { id: user_id } = request.user;
 
     const createTicket = container.resolve(CreateTicketService);
-    const { id, user } = await createTicket.execute({ user_id, value });
+    const { id } = await createTicket.execute({ user_id, value });
 
-    return response.json({ id, user: user.name, value });
+    return response.json({ id, value });
   }
 }
