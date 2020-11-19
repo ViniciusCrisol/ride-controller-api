@@ -11,6 +11,9 @@ import TicketsRepository from '@modules/tickets/infra/typeorm/repositories/Ticke
 import ILogsRepository from '@modules/logs/repositories/ILogsRepository';
 import LogsRepository from '@modules/logs/infra/typeorm/repositories/LogsRepository';
 
+import IPaymentsRepository from '@modules/payments/repositories/IPaymentsRepository';
+import PaymentsRepository from '@modules/payments/infra/typeorm/repositories/PaymentsRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -22,3 +25,8 @@ container.registerSingleton<ITicketsRepository>(
 );
 
 container.registerSingleton<ILogsRepository>('LogsRepository', LogsRepository);
+
+container.registerSingleton<IPaymentsRepository>(
+  'PaymentsRepository',
+  PaymentsRepository,
+);

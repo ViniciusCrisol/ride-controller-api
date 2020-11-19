@@ -34,7 +34,7 @@ export default class CreateTickets1605366905909 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: 'UserTicket',
+            name: 'UserTickets',
             referencedTableName: 'users',
             referencedColumnNames: ['id'],
             columnNames: ['user_id'],
