@@ -33,7 +33,8 @@ class CreatePaymentService {
       user_id: userId,
     });
 
-    // TODO(Somar valores dos logs e gerar um pagamento & Tests)
+    const logsValue = logs.reduce((value, log) => log.value + value, 0);
+    await this.paymentsRepository.create({ user_id: userId, value: logsValue });
   }
 }
 

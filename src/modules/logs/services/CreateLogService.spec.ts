@@ -25,7 +25,6 @@ describe('CreateLog', () => {
 
   it('should be able to create a new log', async () => {
     const log = await createLog.execute({
-      value: 2.0,
       userId: user.id,
     });
 
@@ -35,7 +34,6 @@ describe('CreateLog', () => {
   it('should not be able to create a new log with a non-existing user', async () => {
     await expect(
       createLog.execute({
-        value: 2.0,
         userId: 'NonExistingID',
       }),
     ).rejects.toBeInstanceOf(AppError);

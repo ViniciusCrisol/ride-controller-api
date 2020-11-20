@@ -10,9 +10,7 @@ const logsController = new LogsController();
 
 logsRouter.post(
   '/',
-  celebrate({
-    [Segments.BODY]: { value: Joi.number().required().min(0.01) },
-  }),
+  celebrate({ [Segments.BODY]: { value: Joi.number().required().min(0.01) } }),
   logsController.create,
 );
 
