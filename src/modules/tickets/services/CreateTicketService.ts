@@ -7,7 +7,7 @@ import Ticket from '../infra/typeorm/entities/Ticket';
 
 interface IRequest {
   value: number;
-  user_id: string;
+  userId: string;
 }
 
 @injectable()
@@ -20,14 +20,17 @@ class CreateTicketService {
     private usersRepository: IUsersRepository,
   ) {}
 
-  public async execute({ value, user_id }: IRequest): Promise<Ticket> {
-    const userExists = await this.usersRepository.findById(user_id);
+  public async execute({ value, userId }: IRequest): Promise<Ticket> {
+    const userExists = await this.usersRepository.findById(userId);
     if (!userExists) throw new AppError('User does not exists.');
 
-    const ticket = await this.ticketsRepository.findByUserId(user_id);
+    const ticket = await this.ticketsRepository.findByUserId(userId);
 
     if (!ticket) {
-      const newTicket = await this.ticketsRepository.create({ user_id, value });
+      const newTicket = await this.ticketsRepository.create({
+        value,
+        user_id: userId,
+      });
       return newTicket;
     }
 

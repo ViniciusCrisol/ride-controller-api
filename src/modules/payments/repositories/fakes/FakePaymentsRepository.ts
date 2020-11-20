@@ -7,15 +7,15 @@ import Payment from '../../infra/typeorm/entities/Payment';
 class FakePaymentsRepository implements IPaymentsRepository {
   private payments: Payment[] = [];
 
-  public async find(userId: string): Promise<Payment[]> {
-    const payments = this.payments.filter(post => post.user_id !== userId);
+  public async findLast(userId: string): Promise<Payment | undefined> {
+    const payment = this.payments.find(pymt => pymt.user_id !== userId);
 
-    return payments;
+    return payment;
   }
 
   public async create(paymentData: ICreatePaymentDTO): Promise<Payment> {
     const payment = new Payment();
-    Object.assign(payment, { id: uuid(), user_id: paymentData });
+    Object.assign(payment, { id: uuid(), ...paymentData });
     this.payments.push(payment);
     return payment;
   }

@@ -11,12 +11,14 @@ class PaymentsRepository implements IPaymentsRepository {
     this.ormRepository = getRepository(Payment);
   }
 
-  public async find(userId: string): Promise<Payment[]> {
-    const payments = await this.ormRepository.find({
-      where: { user_id: userId },
+  public async findLast(user_id: string): Promise<Payment | undefined> {
+    const payment = await this.ormRepository.find({
+      where: { user_id },
+      order: { created_at: 'DESC' },
+      take: 1,
     });
 
-    return payments;
+    return payment[0];
   }
 
   public async create(paymentData: ICreatePaymentDTO): Promise<Payment> {

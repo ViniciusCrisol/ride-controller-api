@@ -7,7 +7,7 @@ import Log from '../infra/typeorm/entities/Log';
 
 interface IRequest {
   value: number;
-  user_id: string;
+  userId: string;
 }
 
 @injectable()
@@ -20,11 +20,11 @@ class CreateTicketService {
     private usersRepository: IUsersRepository,
   ) {}
 
-  public async execute({ value, user_id }: IRequest): Promise<Log> {
-    const userExists = await this.usersRepository.findById(user_id);
+  public async execute({ value, userId }: IRequest): Promise<Log> {
+    const userExists = await this.usersRepository.findById(userId);
     if (!userExists) throw new AppError('User does not exists.');
 
-    const log = await this.logsRepository.create({ user_id, value });
+    const log = await this.logsRepository.create({ user_id: userId, value });
     return log;
   }
 }

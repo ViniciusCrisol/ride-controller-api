@@ -8,7 +8,7 @@ class FakeTicketsRepository implements ITicketsRepository {
   private tickets: Ticket[] = [];
 
   public async findByUserId(id: string): Promise<Ticket | undefined> {
-    const ticket = this.tickets.find(val => val.user_id === id);
+    const ticket = this.tickets.find(tkt => tkt.user_id === id);
     return ticket;
   }
 
@@ -20,7 +20,7 @@ class FakeTicketsRepository implements ITicketsRepository {
   }
 
   public async save(ticket: Ticket): Promise<Ticket> {
-    const findIndex = this.tickets.findIndex(val => val.id === ticket.id);
+    const findIndex = this.tickets.findIndex(tkt => tkt.id === ticket.id);
     this.tickets[findIndex] = ticket;
     return ticket;
   }

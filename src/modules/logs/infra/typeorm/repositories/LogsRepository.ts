@@ -1,7 +1,8 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, MoreThan, Repository } from 'typeorm';
 
 import ILogsRepository from '@modules/logs/repositories/ILogsRepository';
 import ICreateLogDTO from '@modules/logs/dtos/ICreateLogDTO';
+import IFoundLogDTO from '@modules/logs/dtos/IFoundLogDTO';
 import Log from '../entities/Log';
 
 class LogsRepository implements ILogsRepository {
@@ -11,16 +12,20 @@ class LogsRepository implements ILogsRepository {
     this.ormRepository = getRepository(Log);
   }
 
-  public async find(userId: string): Promise<Log[]> {
-    const logs = await this.ormRepository.find({
-      where: { user_id: userId },
-    });
-
+  public async find(user_id: string): Promise<Log[]> {
+    const logs = await this.ormRepository.find({ where: { user_id } });
     return logs;
   }
 
-  public async create(userData: ICreateLogDTO): Promise<Log> {
-    const log = this.ormRepository.create(userData);
+  public async findByDate({ date, user_id }: IFoundLogDTO): Promise<Log[]> {
+    const logs = await this.ormRepository.find({
+      where: { user_id, created_at: MoreThan(date) },
+    });
+    return logs;
+  }
+
+  public async create(logData: ICreateLogDTO): Promise<Log> {
+    const log = this.ormRepository.create(logData);
     await this.ormRepository.save(log);
     return log;
   }

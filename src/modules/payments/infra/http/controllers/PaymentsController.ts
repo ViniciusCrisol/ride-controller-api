@@ -1,16 +1,15 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import CreateLogService from '@modules/payments/services/CreateLogService';
+import CreateLogService from '@modules/payments/services/CreatePaymentService';
 
 export default class PaymentsController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const { value } = request.body;
-    const { id: user_id } = request.user;
+    const { id: userId } = request.user;
 
-    const createLog = container.resolve(CreateLogService);
-    await createLog.execute({ user_id });
+    const createPayment = container.resolve(CreateLogService);
+    const v = await createPayment.execute({ userId });
 
-    return response.json({ value });
+    return response.json(v);
   }
 }

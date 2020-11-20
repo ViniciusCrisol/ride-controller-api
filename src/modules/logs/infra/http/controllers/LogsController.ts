@@ -6,10 +6,10 @@ import CreateLogService from '@modules/logs/services/CreateLogService';
 export default class LogsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const { value } = request.body;
-    const { id: user_id } = request.user;
+    const { id: userId } = request.user;
 
     const createLog = container.resolve(CreateLogService);
-    const { id, created_at } = await createLog.execute({ user_id, value });
+    const { id, created_at } = await createLog.execute({ userId, value });
 
     return response.json({ id, created_at, value });
   }

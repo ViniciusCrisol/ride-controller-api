@@ -28,7 +28,7 @@ describe('CreateTicket', () => {
 
   it('should be able to create a new ticket', async () => {
     const ticket = await createTicket.execute({
-      user_id: user.id,
+      userId: user.id,
       value: 2.0,
     });
 
@@ -38,7 +38,7 @@ describe('CreateTicket', () => {
   it('should not be able to create a new ticket with a non-existing user', async () => {
     await expect(
       createTicket.execute({
-        user_id: 'NonExistingID',
+        userId: 'NonExistingID',
         value: 2.0,
       }),
     ).rejects.toBeInstanceOf(AppError);
@@ -46,12 +46,12 @@ describe('CreateTicket', () => {
 
   it('should not be able to update a ticket with a new value', async () => {
     await createTicket.execute({
-      user_id: user.id,
+      userId: user.id,
       value: 2.0,
     });
 
     const updatedTicket = await createTicket.execute({
-      user_id: user.id,
+      userId: user.id,
       value: 2.5,
     });
 
