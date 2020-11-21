@@ -25,7 +25,7 @@ class CreatePaymentService {
 
   public async execute({ userId }: IRequest): Promise<Payment> {
     const userExists = await this.usersRepository.findById(userId);
-    if (!userExists) throw new AppError('User does not exists.');
+    if (!userExists) throw new AppError('Usuário não cadastrado.');
 
     const lastPayment = await this.paymentsRepository.findLast(userId);
     const logs = await this.logsRepository.findByDate({
@@ -33,7 +33,7 @@ class CreatePaymentService {
       user_id: userId,
     });
 
-    if (logs.length <= 0) throw new AppError('No payments to make.');
+    if (logs.length <= 0) throw new AppError('Nenhum gasto encontrado.');
     const logsValue = logs.reduce((value, log) => Number(log.value) + value, 0);
     const payment = await this.paymentsRepository.create({
       user_id: userId,

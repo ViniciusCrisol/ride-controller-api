@@ -32,7 +32,7 @@ class AuthenticateUserService {
     const userFoundedByEmail = await this.usersRepository.findByEmail(login);
 
     if (!userFoundedByEmail && !userFoundedByCode)
-      throw new AppError('Incorrect login/password combination.', 401);
+      throw new AppError('Combinação usuário/senha inválida.');
 
     const user = (userFoundedByCode || userFoundedByEmail) as User;
 
@@ -42,7 +42,7 @@ class AuthenticateUserService {
     );
 
     if (!passwordMatched)
-      throw new AppError('Incorrect login/password combination.', 401);
+      throw new AppError('Combinação usuário/senha inválida.');
 
     const { secret, expiresIn } = authConfig.jwt;
 

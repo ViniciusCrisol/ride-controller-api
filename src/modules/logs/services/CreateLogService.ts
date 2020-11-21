@@ -25,10 +25,10 @@ class CreateTicketService {
 
   public async execute({ userId }: IRequest): Promise<Log> {
     const userExists = await this.usersRepository.findById(userId);
-    if (!userExists) throw new AppError('User does not exists.');
+    if (!userExists) throw new AppError('Usuário não cadastrado.');
 
     const ticket = await this.ticketsRepository.findByUserId(userId);
-    if (!ticket) throw new AppError('You should create a ticket.');
+    if (!ticket) throw new AppError('Valor de ticket não castrado.');
 
     const log = await this.logsRepository.create({
       user_id: userId,

@@ -22,7 +22,7 @@ class CreateTicketService {
 
   public async execute({ value, userId }: IRequest): Promise<Ticket> {
     const userExists = await this.usersRepository.findById(userId);
-    if (!userExists) throw new AppError('User does not exists.');
+    if (!userExists) throw new AppError('Usuário não cadastrado.');
 
     const ticket = await this.ticketsRepository.findByUserId(userId);
 
