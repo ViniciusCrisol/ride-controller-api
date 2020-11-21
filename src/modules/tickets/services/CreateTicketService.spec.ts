@@ -9,7 +9,7 @@ let fakeUsersRepository: FakeUsersRepository;
 let fakeTicketsRepository: FakeTicketsRepository;
 let createTicket: CreateTicketService;
 
-describe('CreateTicket', () => {
+describe('Create Ticket', () => {
   beforeEach(async () => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeTicketsRepository = new FakeTicketsRepository();
@@ -32,16 +32,16 @@ describe('CreateTicket', () => {
     expect(ticket).toHaveProperty('id');
   });
 
-  it('should not be able to create a new ticket with a non-existing user', async () => {
+  it('should not be able to create a new ticket with a non-existing user.', async () => {
     await expect(
       createTicket.execute({
-        userId: 'NonExistingID',
+        userId: 'nonExistingID',
         value: 2.0,
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
 
-  it('should not be able to update a ticket with a new value', async () => {
+  it('should not be able to update a ticket with a new value.', async () => {
     await createTicket.execute({ userId: user.id, value: 2.0 });
     const updatedTicket = await createTicket.execute({
       userId: user.id,

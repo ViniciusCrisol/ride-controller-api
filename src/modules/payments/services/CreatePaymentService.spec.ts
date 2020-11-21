@@ -13,7 +13,7 @@ let fakeLogsRepository: FakeLogsRepository;
 let fakePaymentsRepository: FakePaymentsRepository;
 let createPayment: CreatePaymentService;
 
-describe('CreatePayment', () => {
+describe('Create Payment', () => {
   beforeEach(async () => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeTicketsRepository = new FakeTicketsRepository();
@@ -36,7 +36,7 @@ describe('CreatePayment', () => {
     await fakeTicketsRepository.create({ user_id: user.id, value: 2.1 });
   });
 
-  it('should be able to create a new payment', async () => {
+  it('should be able to create a new payment.', async () => {
     await fakeLogsRepository.create({ user_id: user.id, value: 2.0 });
     await fakeLogsRepository.create({ user_id: user.id, value: 2.0 });
     await fakeLogsRepository.create({ user_id: user.id, value: 2.0 });
@@ -46,7 +46,7 @@ describe('CreatePayment', () => {
     expect(payment).toHaveProperty('id');
   });
 
-  it('should be able to create a new payment with a last payment registered', async () => {
+  it('should be able to create a new payment with a payment registered.', async () => {
     await fakeLogsRepository.create({ user_id: user.id, value: 2.0 });
     await fakeLogsRepository.create({ user_id: user.id, value: 2.0 });
 
@@ -59,18 +59,18 @@ describe('CreatePayment', () => {
     expect(payment).toHaveProperty('id');
   });
 
-  it('should not be able to create a new payment with a non-existing user', async () => {
+  it('should not be able to create a new payment with a non-existing user.', async () => {
     await fakeLogsRepository.create({ user_id: user.id, value: 2.0 });
     await fakeLogsRepository.create({ user_id: user.id, value: 2.0 });
     await fakeLogsRepository.create({ user_id: user.id, value: 2.0 });
     await fakeLogsRepository.create({ user_id: user.id, value: 2.0 });
 
     await expect(
-      createPayment.execute({ userId: 'NonExistingID' }),
+      createPayment.execute({ userId: 'nonExistingID' }),
     ).rejects.toBeInstanceOf(AppError);
   });
 
-  it('should not be able to create a new payment without logs', async () => {
+  it('should not be able to create a new payment without logs.', async () => {
     await expect(
       createPayment.execute({ userId: user.id }),
     ).rejects.toBeInstanceOf(AppError);

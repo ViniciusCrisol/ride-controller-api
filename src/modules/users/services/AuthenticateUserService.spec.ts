@@ -9,7 +9,7 @@ let fakeHashProvider: FakeHashProvider;
 let fakeUsersRepository: FakeUsersRepository;
 let authenticateUser: AuthenticateUserService;
 
-describe('AuthnticateUser', () => {
+describe('Authnticate User', () => {
   beforeEach(async () => {
     fakeHashProvider = new FakeHashProvider();
     fakeUsersRepository = new FakeUsersRepository();
@@ -27,7 +27,7 @@ describe('AuthnticateUser', () => {
     });
   });
 
-  it('should be able to authenticate user with code', async () => {
+  it('should be able to authenticate the user with code.', async () => {
     const response = await authenticateUser.execute({
       login: 'john@example',
       password: 'password',
@@ -37,7 +37,7 @@ describe('AuthnticateUser', () => {
     expect(response.user).toEqual(user);
   });
 
-  it('should be able to authenticate user with e-mail', async () => {
+  it('should be able to authenticate the user with e-mail.', async () => {
     const response = await authenticateUser.execute({
       login: 'john@example.com',
       password: 'password',
@@ -46,7 +46,7 @@ describe('AuthnticateUser', () => {
     expect(response).toHaveProperty('token');
   });
 
-  it('should not be able to authenticate with a wrong login', async () => {
+  it('should not be able to authenticate with a wrong login.', async () => {
     await expect(
       authenticateUser.execute({
         login: 'wrongJohn@example',
@@ -55,7 +55,7 @@ describe('AuthnticateUser', () => {
     ).rejects.toBeInstanceOf(AppError);
   });
 
-  it('should not be able to authenticate with a wrong password', async () => {
+  it('should not be able to authenticate with a wrong password.', async () => {
     await expect(
       authenticateUser.execute({
         login: 'john@example',

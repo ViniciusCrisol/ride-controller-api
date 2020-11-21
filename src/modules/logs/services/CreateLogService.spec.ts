@@ -11,7 +11,7 @@ let fakeTicketsRepository: FakeTicketsRepository;
 let fakeLogsRepository: FakeLogsRepository;
 let createLog: CreateLogService;
 
-describe('CreateLog', () => {
+describe('Create Log', () => {
   beforeEach(async () => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeTicketsRepository = new FakeTicketsRepository();
@@ -31,21 +31,21 @@ describe('CreateLog', () => {
     });
   });
 
-  it('should be able to create a new log', async () => {
+  it('should be able to create a new log.', async () => {
     await fakeTicketsRepository.create({ value: 2.0, user_id: user.id });
     const log = await createLog.execute({ userId: user.id });
     expect(log).toHaveProperty('id');
   });
 
-  it('should not be able to create a new log with a non-existing user', async () => {
+  it('should not be able to create a new log with a non-existing user.', async () => {
     await expect(
       createLog.execute({
-        userId: 'NonExistingID',
+        userId: 'nonExistingID',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
 
-  it('should not be able to create a new log with a non-existing user ticket value', async () => {
+  it('should not be able to create a new log with a non-existing user ticket value.', async () => {
     await expect(
       createLog.execute({
         userId: user.id,

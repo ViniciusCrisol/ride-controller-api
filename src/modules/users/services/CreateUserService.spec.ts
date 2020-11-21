@@ -7,7 +7,7 @@ let fakeHashProvider: FakeHashProvider;
 let fakeUsersRepository: FakeUsersRepository;
 let createUser: CreateUserService;
 
-describe('CreateUser', () => {
+describe('Create User', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeHashProvider = new FakeHashProvider();
@@ -15,7 +15,7 @@ describe('CreateUser', () => {
     createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider);
   });
 
-  it('should be able to create a new user', async () => {
+  it('should be able to create a new user.', async () => {
     const user = await createUser.execute({
       name: 'John Doe',
       code: 'john@example',
@@ -25,7 +25,7 @@ describe('CreateUser', () => {
     expect(user).toHaveProperty('id');
   });
 
-  it('should not be able to create a new user with same code from another', async () => {
+  it('should not be able to create a new user with the same code from another.', async () => {
     await createUser.execute({
       name: 'John Doe',
       code: 'john@example',
@@ -43,7 +43,7 @@ describe('CreateUser', () => {
     ).rejects.toBeInstanceOf(AppError);
   });
 
-  it('should not be able to create a new user with same e-mail from another', async () => {
+  it('should not be able to create a new user with the same e-mail from another.', async () => {
     await createUser.execute({
       name: 'John Doe',
       code: 'john@example01',
