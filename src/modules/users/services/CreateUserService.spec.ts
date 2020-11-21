@@ -1,16 +1,17 @@
 import AppError from '@shared/errors/AppError';
-import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
+import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 import CreateUserService from './CreateUserService';
 
-let createUser: CreateUserService;
-let fakeUsersRepository: FakeUsersRepository;
 let fakeHashProvider: FakeHashProvider;
+let fakeUsersRepository: FakeUsersRepository;
+let createUser: CreateUserService;
 
 describe('CreateUser', () => {
   beforeEach(() => {
-    fakeHashProvider = new FakeHashProvider();
     fakeUsersRepository = new FakeUsersRepository();
+    fakeHashProvider = new FakeHashProvider();
+
     createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider);
   });
 
@@ -21,7 +22,6 @@ describe('CreateUser', () => {
       email: 'john@example.com',
       password: 'password',
     });
-
     expect(user).toHaveProperty('id');
   });
 

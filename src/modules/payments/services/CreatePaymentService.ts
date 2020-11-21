@@ -4,6 +4,7 @@ import AppError from '@shared/errors/AppError';
 import ILogsRepository from '@modules/logs/repositories/ILogsRepository';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import IPaymentsRepository from '../repositories/IPaymentsRepository';
+import Payment from '../infra/typeorm/entities/Payment';
 
 interface IRequest {
   userId: string;
@@ -22,19 +23,23 @@ class CreatePaymentService {
     private usersRepository: IUsersRepository,
   ) {}
 
-  public async execute({ userId }: IRequest): Promise<void> {
+  public async execute({ userId }: IRequest): Promise<Payment> {
     const userExists = await this.usersRepository.findById(userId);
     if (!userExists) throw new AppError('User does not exists.');
 
     const lastPayment = await this.paymentsRepository.findLast(userId);
-
     const logs = await this.logsRepository.findByDate({
       date: lastPayment?.created_at,
       user_id: userId,
     });
 
-    const logsValue = logs.reduce((value, log) => log.value + value, 0);
-    await this.paymentsRepository.create({ user_id: userId, value: logsValue });
+    if (logs.length <= 0) throw new AppError('No payments to make.');
+    const logsValue = logs.reduce((value, log) => Number(log.value) + value, 0);
+    const payment = await this.paymentsRepository.create({
+      user_id: userId,
+      value: logsValue,
+    });
+    return payment;
   }
 }
 

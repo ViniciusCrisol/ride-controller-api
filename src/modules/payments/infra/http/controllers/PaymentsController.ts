@@ -8,8 +8,8 @@ export default class PaymentsController {
     const { id: userId } = request.user;
 
     const createPayment = container.resolve(CreateLogService);
-    const v = await createPayment.execute({ userId });
+    const { id, value, created_at } = await createPayment.execute({ userId });
 
-    return response.json(v);
+    return response.json({ id, value, created_at });
   }
 }

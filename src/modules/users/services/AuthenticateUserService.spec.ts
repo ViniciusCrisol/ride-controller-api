@@ -5,14 +5,15 @@ import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 import AuthenticateUserService from './AuthenticateUserService';
 
 let user: User;
-let authenticateUser: AuthenticateUserService;
 let fakeHashProvider: FakeHashProvider;
 let fakeUsersRepository: FakeUsersRepository;
+let authenticateUser: AuthenticateUserService;
 
 describe('AuthnticateUser', () => {
   beforeEach(async () => {
     fakeHashProvider = new FakeHashProvider();
     fakeUsersRepository = new FakeUsersRepository();
+
     authenticateUser = new AuthenticateUserService(
       fakeUsersRepository,
       fakeHashProvider,
@@ -41,9 +42,8 @@ describe('AuthnticateUser', () => {
       login: 'john@example.com',
       password: 'password',
     });
-
-    expect(response).toHaveProperty('token');
     expect(response.user).toEqual(user);
+    expect(response).toHaveProperty('token');
   });
 
   it('should not be able to authenticate with a wrong login', async () => {

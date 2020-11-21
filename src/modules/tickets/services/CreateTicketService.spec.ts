@@ -5,14 +5,15 @@ import FakeTicketsRepository from '../repositories/fakes/FakeTicketsRepository';
 import CreateTicketService from './CreateTicketService';
 
 let user: User;
-let createTicket: CreateTicketService;
 let fakeUsersRepository: FakeUsersRepository;
 let fakeTicketsRepository: FakeTicketsRepository;
+let createTicket: CreateTicketService;
 
 describe('CreateTicket', () => {
   beforeEach(async () => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeTicketsRepository = new FakeTicketsRepository();
+
     createTicket = new CreateTicketService(
       fakeTicketsRepository,
       fakeUsersRepository,
@@ -27,11 +28,7 @@ describe('CreateTicket', () => {
   });
 
   it('should be able to create a new ticket', async () => {
-    const ticket = await createTicket.execute({
-      userId: user.id,
-      value: 2.0,
-    });
-
+    const ticket = await createTicket.execute({ userId: user.id, value: 2.0 });
     expect(ticket).toHaveProperty('id');
   });
 
@@ -45,16 +42,11 @@ describe('CreateTicket', () => {
   });
 
   it('should not be able to update a ticket with a new value', async () => {
-    await createTicket.execute({
-      userId: user.id,
-      value: 2.0,
-    });
-
+    await createTicket.execute({ userId: user.id, value: 2.0 });
     const updatedTicket = await createTicket.execute({
       userId: user.id,
       value: 2.5,
     });
-
     expect(updatedTicket.value).toEqual(2.5);
   });
 });
