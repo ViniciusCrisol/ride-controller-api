@@ -19,7 +19,7 @@ interface IRequest {
 interface IResponse {
   user: User;
   ticket: Ticket | undefined;
-  last_payment: Payment | undefined;
+  payment: Payment | undefined;
   token: string;
 }
 
@@ -64,9 +64,9 @@ class AuthenticateUserService {
     });
 
     const ticket = await this.ticketsRepository.findByUserId(user.id);
-    const last_payment = await this.paymentsRepository.findLast(user.id);
+    const payment = await this.paymentsRepository.findLast(user.id);
 
-    return { user, ticket, last_payment, token };
+    return { user, ticket, payment, token };
   }
 }
 
