@@ -1,22 +1,30 @@
 import AppError from '@shared/errors/AppError';
-import User from '../infra/typeorm/entities/User';
+import FakeTicketsRepository from '@modules/tickets/repositories/fakes/FakeTicketsRepository';
+import FakePaymentsRepository from '@modules/payments/repositories/fakes/FakePaymentsRepository';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 import AuthenticateUserService from './AuthenticateUserService';
+import User from '../infra/typeorm/entities/User';
 
-let user: User;
+let fakePaymentsRepository: FakePaymentsRepository;
+let fakeTicketsRepository: FakeTicketsRepository;
 let fakeHashProvider: FakeHashProvider;
 let fakeUsersRepository: FakeUsersRepository;
 let authenticateUser: AuthenticateUserService;
+let user: User;
 
 describe('Authnticate User', () => {
   beforeEach(async () => {
+    fakeTicketsRepository = new FakeTicketsRepository();
+    fakePaymentsRepository = new FakePaymentsRepository();
     fakeHashProvider = new FakeHashProvider();
     fakeUsersRepository = new FakeUsersRepository();
 
     authenticateUser = new AuthenticateUserService(
-      fakeUsersRepository,
       fakeHashProvider,
+      fakeUsersRepository,
+      fakeTicketsRepository,
+      fakePaymentsRepository,
     );
 
     user = await fakeUsersRepository.create({
