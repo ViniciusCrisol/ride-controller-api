@@ -3,8 +3,9 @@ import { sign } from 'jsonwebtoken';
 
 import authConfig from '@config/auth';
 import AppError from '@shared/errors/AppError';
-import IUsersRepository from '../repositories/IUsersRepository';
+import IPaymentsRepository from '@modules/payments/repositories/IPaymentsRepository';
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
+import IUsersRepository from '../repositories/IUsersRepository';
 import User from '../infra/typeorm/entities/User';
 
 interface IRequest {
@@ -20,14 +21,17 @@ interface IResponse {
 @injectable()
 class AuthenticateUserService {
   constructor(
+    @inject('HashProvider')
+    private hashProvider: IHashProvider,
+
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
 
-    @inject('HashProvider')
-    private hashProvider: IHashProvider,
+    @inject('PaymentsRepository')
+    private paymentsRepository: IPaymentsRepository,
   ) {}
 
-  public async execute({ login, password }: IRequest): Promise<IResponse> {
+  public async execute({ login, password }: IRequest): Promise<any> {
     const userFoundedByCode = await this.usersRepository.findByCode(login);
     const userFoundedByEmail = await this.usersRepository.findByEmail(login);
 
@@ -51,7 +55,9 @@ class AuthenticateUserService {
       expiresIn,
     });
 
-    return { user, token };
+    const last_payment = await this.paymentsRepository.findLast(user.id);
+
+    return { user, token, last_payment };
   }
 }
 
