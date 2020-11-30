@@ -34,11 +34,13 @@ class CreatePaymentService {
     });
 
     if (logs.length <= 0) throw new AppError('Nenhum gasto encontrado.');
+
     const logsValue = logs.reduce((value, log) => Number(log.value) + value, 0);
     const payment = await this.paymentsRepository.create({
       user_id: userId,
       value: logsValue,
     });
+
     return payment;
   }
 }

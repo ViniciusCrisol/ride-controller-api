@@ -18,6 +18,11 @@ class LogsRepository implements ILogsRepository {
   }
 
   public async findByDate({ date, user_id }: IFoundLogDTO): Promise<Log[]> {
+    if (!date) {
+      const logs = await this.ormRepository.find({ where: { user_id } });
+      return logs;
+    }
+
     const logs = await this.ormRepository.find({
       where: { user_id, created_at: MoreThan(date) },
     });
