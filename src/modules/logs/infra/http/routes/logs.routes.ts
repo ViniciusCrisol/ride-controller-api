@@ -8,5 +8,6 @@ logsRouter.use(ensureAuthenticated);
 const logsController = new LogsController();
 
 logsRouter.post('/', logsController.create);
+logsRouter.get('/', logsController.index);
 
 export default logsRouter;
