@@ -13,7 +13,10 @@ class LogsRepository implements ILogsRepository {
   }
 
   public async find(user_id: string): Promise<Log[]> {
-    const logs = await this.ormRepository.find({ where: { user_id } });
+    const logs = await this.ormRepository.find({
+      where: { user_id },
+      order: { created_at: 'DESC' },
+    });
     return logs;
   }
 
