@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
 import CreateLogService from '@modules/logs/services/CreateLogService';
-import ListLogsService from '@modules/logs/services/ListLogsService';
+import GetLogsService from '@modules/logs/services/GetLogsService';
 
 export default class LogsController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -17,8 +17,8 @@ export default class LogsController {
   public async index(request: Request, response: Response): Promise<Response> {
     const { id: userId } = request.user;
 
-    const listLogs = container.resolve(ListLogsService);
-    const logs = await listLogs.execute({ userId });
+    const getLogs = container.resolve(GetLogsService);
+    const logs = await getLogs.execute({ userId });
 
     return response.json(logs);
   }
